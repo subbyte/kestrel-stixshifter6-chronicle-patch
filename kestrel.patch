@@ -1,0 +1,13 @@
+--- /venv/kestrel-1.8.0/lib/python3.11/site-packages/kestrel_datasource_stixshifter/worker/transmitter.py	2023-10-23 16:01:42
++++ /venv/kestrel-chronicle-patch/lib/python3.11/site-packages/kestrel_datasource_stixshifter/worker/transmitter.py	2024-01-16 17:38:57
+@@ -94,6 +94,10 @@
+             if self.wait_datasource_search():
+                 # no error so far
+                 self.retrieve_data()
++
++                # some connector needs to delete the query in the datasource,
++                # e.g., chronicle, discard the return (successful or not)
++                self.transmission.delete(self.search_id)
+         else:
+             err_msg = (
+                 search_meta_result["error"]
